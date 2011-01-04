@@ -2,23 +2,10 @@ require './conversions'
 require 'ffi-geos'
 require 'json'
 
-  #1st job- create simple triangular polygon with rgeo
   
+  #reminder-  hold each geom type in an array so they can be tested against each other for self intersects.
   
-  #get starting point
-  #move to next point
-  #move to bext point
-  #collect final point 
-  
-  #construct linestring
-  #parse into multipolygon
-  
-  
-  
-  
-  #NB hold each geom type in an array so they can be tested against each other for self intersects.
-  
-  #one idea would be to extend teh ffi-geos point type to use as the first point
+  #one idea would be to extend the ffi-geos point type to use as the first point
   
 class Geoipsum
   
@@ -40,7 +27,7 @@ class Geoipsum
   end
   
   
-  #todo: vary the bearing range over the series of polygon to account for different distributions (so randomly select within the distribution- i.e.  minimal range would lead to straight lines)
+  #todo: vary the bearing range over the series of polygon to account for different distributions (so randomly select within the distribution- i.e.  minimal range would lead to straight lines- this would force drastically differing shaped polygons)
   
   
   def generate
