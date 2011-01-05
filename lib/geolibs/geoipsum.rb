@@ -9,12 +9,14 @@ require 'json'
   
 class Geoipsum
   
-  #probably will use options for this- it would be nice to pass in a hash of starting lonlat
-  def initialize perimeter, vertices, bearing_range
+  #todo: probably will use options for this
+  def initialize perimeter, vertices, bearing_range, polygon_number, start_location
     
     @perimeter = perimeter.to_f
     @vertices = vertices.to_f
     @bearing_range = bearing_range.to_f
+    @polygon_number = polygon_number
+    @start_location = start_location
     
     #need some extra stuff from these choices
     @mean_step_length = @perimeter / @vertices
@@ -29,13 +31,42 @@ class Geoipsum
   
   #todo: vary the bearing range over the series of polygon to account for different distributions (so randomly select within the distribution- i.e.  minimal range would lead to straight lines- this would force drastically differing shaped polygons)
   
+  def generate_polygons 
   
-  def generate
+    #container to hold the full file
+    geojson = {"type" => "FeatureCollection"}
+    
+    #array to hold the features
+    features = []
+    start_coordinates = [0,2]
+    
+    (0..@polygon_number).each do |feature|
+      features << {"type" => "Feature",
+                   "geometry" => generate_polygon(start_coordinates), 
+                   "properties" => {"p_id" => feature.to_s}}  
+      
+      #get next polygon position
+      #random distance between perimeter/2 and perimeter * 10
+      
+      start_coordinates = ll_from_dist_bearing (rand(@perimeter * 19 / 2) + @perimeter/2), rand(360), start_coordinates[0], start_coordinates[1] 
+      
+                   
+    end
+    
+    geojson["features"] = features
+    
+    puts geojson.to_json
+      
+  end
+  
+  
+  
+  def generate_polygon start_location
     
     #grab 1st point
     puts "bearing range = #{@bearing_range}; perimeter = #{@perimeter}; vertices = #{@vertices}; mean step length = #{@mean_step_length}"
     
-    p1 = [0,2]  #todo create user defined start point
+    p1 = start_location  #todo create user defined start point
     start_bearing = 0.0
     
     #add point to point array
@@ -61,13 +92,16 @@ class Geoipsum
     
     
     line_string << p1
-    reader = Geos::WktReader.new  
-        #todo:  need to look into converting the geojson into other formats (could use ogr2ogr or rgeo - ideally need an ffi-gdal to make the conversion)
+    
+    #todo:  need to look into converting the geojson into other formats (could use ogr2ogr or rgeo - ideally need an ffi-gdal to make the conversion)
         
-        
+    #reader = Geos::WktReader.new      
     #pg = reader.read("POLYGON((#{line_string.collect{|point| point.join(" ")}.join(",")}))")
-    wkt = "POLYGON((#{line_string.collect{|point| point.join(" ")}.join(",")}))"
-    geojson = "{ \"type\": \"Polygon\",\"coordinates\": [#{line_string.to_json}]}"
+    #wkt = "POLYGON((#{line_string.collect{|point| point.join(" ")}.join(",")}))"
+    
+    geojson = {"type" => "Polygon",
+               "coordinates" => [line_string]}
+    
     
   end
   
