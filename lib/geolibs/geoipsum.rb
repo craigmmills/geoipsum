@@ -10,13 +10,13 @@ require 'json'
 class Geoipsum
   
   #todo: probably will use options for this
-  def initialize perimeter, vertices, bearing_range, polygon_number, start_location
+  def initialize options
     
-    @perimeter = perimeter.to_f
-    @vertices = vertices.to_f
-    @bearing_range = bearing_range.to_f
-    @polygon_number = polygon_number
-    @start_location = start_location
+    @perimeter = options["perimeter"].to_f
+    @vertices = options["vertices"].to_f
+    @bearing_range = options["bearing_range"].to_f
+    @polygon_number = options["polygon_number"]
+    @start_location = options["start_location"]
     
     #need some extra stuff from these choices
     @mean_step_length = @perimeter / @vertices
@@ -48,7 +48,7 @@ class Geoipsum
       #get next polygon position
       #random distance between perimeter/2 and perimeter * 10
       
-      start_coordinates = ll_from_dist_bearing (rand(@perimeter * 19 / 2) + @perimeter/2), rand(360), start_coordinates[0], start_coordinates[1] 
+      start_coordinates = ll_from_dist_bearing (rand(@perimeter * 5 / 2) + @perimeter/2), rand(360), start_coordinates[0], start_coordinates[1] 
       
                    
     end
@@ -64,7 +64,7 @@ class Geoipsum
   def generate_polygon start_location
     
     #grab 1st point
-    puts "bearing range = #{@bearing_range}; perimeter = #{@perimeter}; vertices = #{@vertices}; mean step length = #{@mean_step_length}"
+    #puts "bearing range = #{@bearing_range}; perimeter = #{@perimeter}; vertices = #{@vertices}; mean step length = #{@mean_step_length}"
     
     p1 = start_location  #todo create user defined start point
     start_bearing = 0.0
@@ -74,20 +74,19 @@ class Geoipsum
     
     #one less vertices to try and avoid serious overlap
     (0..(@vertices-1)).each do |point|
-      puts point
+     
       #set distance and bearing
       
       #randomly choose distance based on mean step_length +/- 20km
       step_distance = rand(40) + (@mean_step_length - 20) #todo, allow user to choose the range
       
-      puts step_distance
       step_bearing = ((start_bearing - (@bearing_range/2)).bearing + rand(@bearing_range)).bearing
       
       #add next point to line string
       line_string << ll_from_dist_bearing(step_distance, step_bearing, line_string[point][0], line_string[point][1])
       
       start_bearing = (start_bearing + @deg_width).to_f.bearing
-      puts "start bearing: #{start_bearing}"
+      
     end
     
     
