@@ -1,11 +1,14 @@
-require './conversions'
-require 'ffi-geos'
+require "#{RAILS_ROOT}/lib/geolibs/conversions"
+#require 'ffi-geos'
 require 'json'
 
   
   #reminder-  hold each geom type in an array so they can be tested against each other for self intersects.
   
   #one idea would be to extend the ffi-geos point type to use as the first point
+module Geoipsum
+  
+
   
 class Geoipsum
   
@@ -55,7 +58,7 @@ class Geoipsum
     
     geojson["features"] = features
     
-    puts geojson.to_json
+    geojson
       
   end
   
@@ -127,4 +130,6 @@ class Geoipsum
     [lat2.rads, lon2.rads] 
   end
   
+end
+
 end

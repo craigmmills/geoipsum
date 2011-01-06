@@ -1,4 +1,6 @@
 Geoipsum::Application.routes.draw do
+  
+  match "/polygons" => "home#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
