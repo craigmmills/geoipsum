@@ -1,6 +1,8 @@
 require "#{RAILS_ROOT}/lib/geolibs/geoipsum"
 
 class HomeController < ApplicationController
+  
+  respond_to :html, :xml, :json
   def index
     
       params = {"perimeter"=>1000, 
@@ -12,9 +14,11 @@ class HomeController < ApplicationController
      randompolys = Geoipsum::Geoipsum.new(params)
      geojson = randompolys.generate_polygons
      
-     respond_to do |format|
-       format.json  { render :json => geojson }
-     end
+     
+     respond_with (geojson)
+     # respond_to do |format|
+     #        format.json  { render :json => geojson }
+     #      end
     
     
   end

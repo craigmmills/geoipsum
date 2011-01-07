@@ -20,8 +20,6 @@ class Numeric
     end
 
   end
-      
-   
     
 end
 

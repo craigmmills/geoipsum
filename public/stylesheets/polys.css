@@ -1,0 +1,9 @@
+.layer path {
+  fill: white;
+  fill-opacity: .7;
+  stroke: grey;
+}
+
+#map svg {
+  height: 400px;
+}

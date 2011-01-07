@@ -1,2 +1,27 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+
+
+  
+<div class="span-24"></div>
+<div id="map" class="span-16"></div>
+<div class="span-4 last"></div>
+
+<script type="text/javascript" charset="utf-8">
+	var po = org.polymaps;
+
+	var map = po.map()
+	    .container(document.body.appendChild(po.svg("svg")))
+	    .center({lat: 20, lon: 0})
+	    .zoom(3)
+	    .add(po.interact());
+
+	map.add(po.image()
+	    .url(po.url("http://{S}tile.cloudmade.com"
+	    + "/1a1b06b230af4efdbb989ea99e9841af" // http://cloudmade.com/register
+	    + "/4876/256/{Z}/{X}/{Y}.png")
+	    .hosts(["a.", "b.", "c.", ""])));
+	
+	map.add(po.geoJson().url("http://localhost:3000/polygons.json"));
+
+	map.add(po.compass()
+	    .pan("none"));
+</script>
