@@ -1,9 +1,14 @@
 .layer path {
-  fill: white;
-  fill-opacity: .7;
+  fill: black;
   stroke: grey;
 }
 
-#map svg {
-  height: 400px;
+#inner svg {
+  height: 30em;
+  border-bottom-style:solid;
+  border-bottom-width:10px;
+  border-bottom-color:#b52127;
+  border-top-style:solid;
+  border-top-width:10px;
+  border-top-color:#b52127;
 }

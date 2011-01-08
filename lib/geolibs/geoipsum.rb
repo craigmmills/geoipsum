@@ -16,17 +16,21 @@ module Geoipsum
     def initialize options
     
       @perimeter = options["perimeter"].to_f
-      @vertices = options["vertices"].to_f
+      @vertices = @perimeter * 0.1
       @bearing_range = options["bearing_range"].to_f
-      @polygon_number = options["polygon_number"]
-      @start_location = options["start_location"]
+      @polygon_number = options["polygon_number"].to_i
+      @bb = options["bb"].split(",") #n,w,s,e
+      
+      
+      
+      
     
       #need some extra stuff from these choices
       @mean_step_length = @perimeter / @vertices
     
       #get bearing bin width
       @deg_width = 360.0 / @vertices
-    
+      
     
     
     end
@@ -42,19 +46,27 @@ module Geoipsum
     
       #array to hold the features
       features = []
-      start_coordinates = [0,2]
+     
     
-      (0..@polygon_number).each do |feature|
+      (0..@polygon_number-3).each do |feature|
+        
+        #generate random start position inside the bounding box
+        xmin = @bb[0].to_f
+        xmax = @bb[2].to_f
+        ymin = @bb[3].to_f
+        ymax = @bb[1].to_f
+        
+        new_coordx = rand(xmax - xmin) + xmin
+        new_coordy = rand(ymax - ymin) + ymax
+        
+        @start_location = [new_coordy, new_coordx]
+                         
         features << {"type" => "Feature",
-                     "geometry" => generate_polygon(start_coordinates), 
+                     "geometry" => generate_polygon(@start_location), 
                      "properties" => {"p_id" => feature.to_s}}  
       
         #get next polygon position
         #random distance between perimeter/2 and perimeter * 10
-      
-        start_coordinates = ll_from_dist_bearing (rand(@perimeter * 5 / 2) + @perimeter/2), 
-                                                  rand(360), start_coordinates[0], 
-                                                  start_coordinates[1] 
       
                    
       end
@@ -79,12 +91,12 @@ module Geoipsum
       line_string = [p1]
     
       #one less vertices to try and avoid serious overlap
-      (0..(@vertices-3)).each do |point|
+      (0..(@vertices-1)).each do |point|
      
         #set distance and bearing
       
         #randomly choose distance based on mean step_length +/- 20km
-        step_distance = rand(40) + (@mean_step_length - 20) #todo, allow user to choose the range
+        step_distance = rand(@mean_step_length*2) + (@mean_step_length - (@mean_step_length*0.01)) #todo, allow user to choose the range
       
         step_bearing = ((start_bearing - (@bearing_range/2)).bearing + rand(@bearing_range)).bearing
       

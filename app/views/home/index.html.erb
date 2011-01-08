@@ -1,27 +1,70 @@
 
-
-  
-<div class="span-24"></div>
-<div id="map" class="span-16"></div>
-<div class="span-4 last"></div>
-
-<script type="text/javascript" charset="utf-8">
-	var po = org.polymaps;
-
-	var map = po.map()
-	    .container(document.body.appendChild(po.svg("svg")))
-	    .center({lat: 20, lon: 0})
-	    .zoom(3)
-	    .add(po.interact());
-
-	map.add(po.image()
-	    .url(po.url("http://{S}tile.cloudmade.com"
-	    + "/1a1b06b230af4efdbb989ea99e9841af" // http://cloudmade.com/register
-	    + "/4876/256/{Z}/{X}/{Y}.png")
-	    .hosts(["a.", "b.", "c.", ""])));
+<div style="background-color:#760B10;">
 	
-	map.add(po.geoJson().url("http://localhost:3000/polygons.json"));
 
-	map.add(po.compass()
-	    .pan("none"));
-</script>
+<div id="name" style="height:2em; background-color:#760B10;margin-left:auto;
+margin-right:auto;">
+	
+</div>
+
+	<div style="background-color:#760B10;">
+		<div class="container" style="height:12em;">
+			<div class="span-8" style="height:12em;">
+				<div style="height:5em;"></div>
+				<h2 style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif;">zoom or move the map to generate your random geojson</h3>
+			</div>
+			<div class="span-1" style="height:12em">
+			</div>
+			<div class="span-15 last" style="height:12em;">
+				<h1 style="color: #FFDFA6; font-size:8em; font-family: 'Copse', arial, serif; margin-bottom:0em;">GEOIPSUM</h1>
+				<h3 style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif;">&nbsp a random service you never knew you needed</h3>
+			
+			</div>
+
+		</div>
+	</div>
+	
+	
+	<div id="inner" style="margin-bottom:0em;">
+	
+		<img src="/images/red_point.png" style="position:absolute;left:24em;">
+
+
+		<script type="text/javascript" charset="utf-8">
+			
+			var po = org.polymaps;
+
+			var map = po.map()
+			    .container(document.getElementById("inner").appendChild(po.svg("svg")))
+			    .center({lat: 52, lon: 0})
+			    .zoom(5)
+			    .add(po.interact());
+
+			map.add(po.image()
+			    .url(po.url("http://{S}tile.cloudmade.com"
+			    + "/1a1b06b230af4efdbb989ea99e9841af" // http://cloudmade.com/register
+			    + "/4876/256/{Z}/{X}/{Y}.png")
+			    .hosts(["a.", "b.", "c.", ""])));
+			
+			map.add(po.grid());
+			var sw_ne = map.extent()[0].lat + "," + map.extent()[0].lon + "," + map.extent()[1].lat + "," +  map.extent()[1].lon;
+				 map.add(po.geoJson().url("http://localhost:3000/polygons.json?perimeter=500&bearing_range=30&polygon_number=20&bb="+sw_ne));
+
+		</script>
+	</div>
+	<div id="name" style="height:20em; background-color:#760B10;">
+		<div class="container">
+			<div class="span-24 box last" style="height:10em"></div>
+		</div>
+	</div>
+	
+<!-- <div class="container">
+	<div class="span-16">
+		<img alt="Blue_arrow" src="/images/point.png" style="position:absolute;left:300px;">
+		<br/>
+	</div>
+</div> -->
+
+
+
+</div>
