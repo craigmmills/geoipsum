@@ -1,6 +1,7 @@
 .layer path {
-  fill: black;
-  stroke: grey;
+  fill: #760B10;
+  stroke: #FFDFA6;
+  fill-opacity: .7;
 }
 
 #inner svg {

@@ -1,5 +1,7 @@
+require "#{Rails.root.to_s}/lib/geolibs/geoipsum"
+
 class PolygonController < ApplicationController
-  respond_to :html, :xml, :json
+  respond_to :json
   def index
     puts params
     

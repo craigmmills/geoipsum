@@ -1,11 +1,14 @@
 #convert degrees to radians
 class Numeric
   def degrees
-    self * Math::PI / 180 
+    #puts self.to_s + ":" + (self * (Math::PI / 180)).to_s
+   
+    self * (Math::PI / 180)
+    
   end
 
   def rads
-    self * 180 / Math::PI
+    self * (180 / Math::PI)
   end
     
    #correct for bearing slipping past the 0/360 mark  

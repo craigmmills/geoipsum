@@ -17,7 +17,7 @@ margin-right:auto;">
 			</div>
 			<div class="span-15 last" style="height:12em;">
 				<h1 style="color: #FFDFA6; font-size:8em; font-family: 'Copse', arial, serif; margin-bottom:0em;">GEOIPSUM</h1>
-				<h3 style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif;">&nbsp a random service you never knew you needed</h3>
+				<h3 style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif;">&nbsp lorem ipsum for the geonerds</h3>
 			
 			</div>
 
@@ -32,13 +32,16 @@ margin-right:auto;">
 
 		<script type="text/javascript" charset="utf-8">
 			
+			jQuery.noConflict();
+		    var $j = jQuery;			
 			var po = org.polymaps;
 
 			var map = po.map()
 			    .container(document.getElementById("inner").appendChild(po.svg("svg")))
-			    .center({lat: 52, lon: 0})
+			    .center({lat: 52, lon: 90})
 			    .zoom(5)
-			    .add(po.interact());
+			    .add(po.interact())
+				.on("move", move);
 
 			map.add(po.image()
 			    .url(po.url("http://{S}tile.cloudmade.com"
@@ -47,24 +50,66 @@ margin-right:auto;">
 			    .hosts(["a.", "b.", "c.", ""])));
 			
 			map.add(po.grid());
-			var sw_ne = map.extent()[0].lat + "," + map.extent()[0].lon + "," + map.extent()[1].lat + "," +  map.extent()[1].lon;
-				 map.add(po.geoJson().url("http://localhost:3000/polygons.json?perimeter=500&bearing_range=30&polygon_number=20&bb="+sw_ne));
-
+			var previous_loc = map.extent()[0];
+			var layer;
+			add_layer();
+				
+				$j(document).ready(function(){
+					$j("#geolink").html("get the geojson <a href='" + georef + "'>here</p>");
+				});	
+				
+			function add_layer(){
+				
+				if (layer != null){
+						map.remove(layer);
+				}
+			
+				var sw_ne = Math.round(map.extent()[0].lat * 100)/100 + "," +
+				 			Math.round(map.extent()[0].lon * 100)/100 + "," + 
+							Math.round(map.extent()[1].lat * 100)/100 + "," +  
+							Math.round(map.extent()[1].lon * 100)/100;
+				georef = "http://localhost:3000/polygons.json?perimeter=300&bearing_range=70&polygon_number=30&bb="+sw_ne			
+				layer = po.geoJson().url(georef);
+				map.add(layer);
+				$j("#geolink").html("get the geojson <a href='" + georef + "'>here</p>");
+				
+			}
+			function move(){
+				//test for rough distance panned so it doesn't constantly call the reoipsum service
+				
+				
+				$j(document).ready(function(){
+					//get height dist
+					var y_dist = Math.abs(map.extent()[0].lat - previous_loc.lat);
+					//get width dist
+					var x_dist = Math.abs(map.extent()[0].lon - previous_loc.lon);
+					//get hypot
+					var dist = Math.sqrt(x_dist^2 + y_dist^2);
+				
+					if (dist > 2){					
+						previous_loc = map.extent()[0];
+						add_layer();		
+					}			
+				});			
+				//alert(map.extent()[0].lat)
+			}
 		</script>
 	</div>
 	<div id="name" style="height:20em; background-color:#760B10;">
 		<div class="container">
-			<div class="span-24 box last" style="height:10em"></div>
+			<div class="span-24 last" style="height:10em">
+				
+				<h2 id="geolink" style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif;"></h2>
+					
+			      <div id="test">
+			      	
+			      </div>
+				
+			</div>
 		</div>
 	</div>
 	
-<!-- <div class="container">
-	<div class="span-16">
-		<img alt="Blue_arrow" src="/images/point.png" style="position:absolute;left:300px;">
-		<br/>
-	</div>
-</div> -->
-
 
 
 </div>
+
