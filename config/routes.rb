@@ -2,7 +2,8 @@ Geoipsum::Application.routes.draw do
   
   get "polygon/index"
 
-  match "/maps" => "home#index"
+  match "/map" => "home#index"
+  match "/" => "home#index"
   match "/polygons" => "polygon#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
