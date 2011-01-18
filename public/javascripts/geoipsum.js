@@ -34,7 +34,7 @@ function add_layer(){
 	 			Math.round(map.extent()[0].lon * 100)/100 + "," + 
 				Math.round(map.extent()[1].lat * 100)/100 + "," +  
 				Math.round(map.extent()[1].lon * 100)/100;
-	georef = "http://localhost:3000/polygons.json?perimeter=300&bearing_range=70&polygon_number=30&bb="+sw_ne			
+	georef = "http://quiet-winter-860.heroku.com/polygons.json?perimeter=300&bearing_range=70&polygon_number=30&bb="+sw_ne			
 	layer = po.geoJson().url(georef);
 	map.add(layer);
 	$j("#geolink").html("get the <a href='" + georef + "'>geojson</p>");
