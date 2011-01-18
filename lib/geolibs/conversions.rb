@@ -1,13 +1,12 @@
-#convert degrees to radians
+
 class Numeric
-  def degrees
-    #puts self.to_s + ":" + (self * (Math::PI / 180)).to_s
-   
+  #convert degrees to radians
+  def to_rads
     self * (Math::PI / 180)
-    
   end
 
-  def rads
+  #convert radians to degrees
+  def to_degs
     self * (180 / Math::PI)
   end
     

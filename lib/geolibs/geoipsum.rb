@@ -1,29 +1,18 @@
-#require 'ffi-geos'
 require 'json'
 require "#{::Rails.root.to_s}/lib/geolibs/conversions"
 
-  
-  #reminder-  hold each geom type in an array so they can be tested against each other for self intersects.
-  
-
 module Geoipsum
-  
-
-  
+    
   class Geoipsum
   
 
     def initialize options
     
-      @perimeter = options["perimeter"].to_f
-      @vertices = @perimeter * 0.1
-      @bearing_range = options["bearing_range"].to_f
-      @polygon_number = options["polygon_number"].to_i
+      @perimeter = options["perimeter"].to_f #of polygon
+      @vertices = @perimeter * 0.1 #get sensible number of vertices
+      @bearing_range = options["bearing_range"].to_f #used to determine jaggyness of polygon
+      @polygon_number = options["polygon_number"].to_i 
       @bb = options["bb"].split(",") #n,w,s,e
-      
-      
-      
-      
     
       #need some extra stuff from these choices
       @mean_step_length = @perimeter / @vertices
@@ -31,13 +20,11 @@ module Geoipsum
       #get bearing bin width
       @deg_width = 360.0 / @vertices
       
-    
-    
     end
   
   
-    #todo: vary the bearing range over the series of polygon to account for different distributions (so randomly select within 
-    #the distribution- i.e.  minimal range would lead to straight lines- this would force drastically differing shaped polygons)
+    #todo: vary the bearing range over the series of polygon to account for different distributions (so randomly select within the distribution- i.e.  minimal range would lead to straight lines- this would force drastically differing shaped polygons)
+  
   
     def generate_polygons 
   
@@ -47,7 +34,7 @@ module Geoipsum
       #array to hold the features
       features = []
      
-    
+      #fill in the polygons
       (0..@polygon_number-3).each do |feature|
         
         
@@ -56,34 +43,12 @@ module Geoipsum
         xmax = @bb[3].to_f
         ymin = @bb[0].to_f
         ymax = @bb[2].to_f
-        
-        new_coordx = rand(xmax - xmin) + xmin
-        new_coordy = rand(ymax - ymin) + ymin
-        
-        puts @bb
-        puts "y: #{new_coordy}     x: #{new_coordx}"
-        
-        @start_location = [new_coordx, new_coordy]
-        
-        
+       
+        @start_location = [rand(xmax - xmin) + xmin, rand(ymax - ymin) + ymin]
                          
         features << {"type" => "Feature",
                              "geometry" => generate_polygon(@start_location), 
                              "properties" => {"p_id" => feature.to_s}}  
-              
-        
-       
-        # point = {"type" => "Point",
-        #                   "coordinates" => @start_location}
-        
-        # features << {"type" => "Feature",
-        #                      "geometry" => point, 
-        #                      "properties" => {"p_id" => feature.to_s}}  
-                        
-
-        
-        #get next polygon position
-        #random distance between perimeter/2 and perimeter * 10
       
                    
       end
@@ -98,22 +63,18 @@ module Geoipsum
     def generate_polygon start_location
     
       #grab 1st point
-      #puts "bearing range = #{@bearing_range}; perimeter = #{@perimeter}; vertices = #{@vertices}; mean step length = 
-      #{@mean_step_length}"
-    
-      p1 = start_location  #todo create user defined start point
+      p1 = start_location     
       start_bearing = 0.0
     
       #add point to point array
       line_string = [p1]
     
-      #one less vertices to try and avoid serious overlap
+      #two less vertices to try and avoid serious overlap or teardrop shaped polygons
+      #todo: test for self intersections- poss ffi geo type thingy
       (0..(@vertices-2)).each do |point|
      
-        #set distance and bearing
-      
-        #randomly choose distance based on mean step_length +/- 20km
-        step_distance = rand(@mean_step_length*2) + (@mean_step_length - (@mean_step_length*0.01)) #todo, allow user to choose the range
+        #randomly choose distance based on mean step_length and 10% of step length
+        step_distance = rand(@mean_step_length*2) + (@mean_step_length - (@mean_step_length*0.01)) 
       
         step_bearing = ((start_bearing - (@bearing_range/2)).bearing + rand(@bearing_range)).bearing
       
@@ -126,24 +87,17 @@ module Geoipsum
         start_bearing = (start_bearing + @deg_width).to_f.bearing
       
       end
-    
-    
+      
+      #add last point to join up the polygon
       line_string << p1
     
       #todo:  need to look into converting the geojson into other formats (could use ogr2ogr or rgeo - 
-      #ideally need an ffi-gdal to make the conversion)
-        
-      #reader = Geos::WktReader.new      
-      #pg = reader.read("POLYGON((#{line_string.collect{|point| point.join(" ")}.join(",")}))")
-      #wkt = "POLYGON((#{line_string.collect{|point| point.join(" ")}.join(",")}))"
     
       geojson = {"type" => "Polygon",
                  "coordinates" => [line_string]}
     
     
     end
-  
-  
   
     # calculate new long and lat based on distance bearing and original long and lat - ported from js version in
     # http://www.movable-type.co.uk/scripts/latlong.html
@@ -155,9 +109,9 @@ module Geoipsum
       r = 6371.0
       dist = dist.to_f/r;  # dist = angular distance covered on earth's surface
       #convert all to radians
-      lat1 = lat1.to_f.degrees
-      lon1 = lon1.to_f.degrees
-      brng = brng.to_f.degrees
+      lat1 = lat1.to_f.to_rads
+      lon1 = lon1.to_f.to_rads
+      brng = brng.to_f.to_rads
       #do the maths
       lat2 = Math.asin( Math.sin(lat1)*Math.cos(dist) +
              Math.cos(lat1)*Math.sin(dist)*Math.cos(brng))
@@ -167,7 +121,7 @@ module Geoipsum
              
       lon2 = (lon2+3*Math::PI)%(2*Math::PI) - Math::PI
       #lat/long array output
-      [lon2.rads, lat2.rads] 
+      [lon2.to_degs, lat2.to_degs] 
     end
   
   end
