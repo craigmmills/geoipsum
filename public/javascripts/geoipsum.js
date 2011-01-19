@@ -1,7 +1,9 @@
 jQuery.noConflict();
 var $j = jQuery;			
 var po = org.polymaps;
+var hn = window.location.hostname;
 
+alert(hn);
 var map = po.map()
     .container(document.getElementById("inner").appendChild(po.svg("svg")))
     .center({lat: 52, lon: -2})
@@ -34,7 +36,7 @@ function add_layer(){
 	 			Math.round(map.extent()[0].lon * 100)/100 + "," + 
 				Math.round(map.extent()[1].lat * 100)/100 + "," +  
 				Math.round(map.extent()[1].lon * 100)/100;
-	georef = "http://quiet-winter-860.heroku.com/polygons.json?perimeter=300&bearing_range=70&polygon_number=30&bb="+sw_ne			
+	georef = "http://" + hn + "/polygons.json?perimeter=300&bearing_range=70&polygon_number=30&bb="+sw_ne			
 	layer = po.geoJson().url(georef);
 	map.add(layer);
 	$j("#geolink").html("get the <a href='" + georef + "'>geojson</p>");
