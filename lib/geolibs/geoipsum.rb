@@ -1,5 +1,6 @@
 require 'json'
 require "#{::Rails.root.to_s}/lib/geolibs/conversions"
+require 'backports'
 
 module Geoipsum
     
