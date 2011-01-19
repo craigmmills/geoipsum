@@ -58,7 +58,7 @@ function move(){
 		//get map extent distance
 		var map_dist = Math.abs(map.extent()[0].lat - map.extent()[1].lat)
 		
-		if ((dist/map_dist) > 0.1){					
+		if ((dist/map_dist) > 0.3){					
 			previous_loc = map.extent()[0];
 			add_layer();		
 		}			

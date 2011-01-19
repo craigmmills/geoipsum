@@ -48,17 +48,14 @@ module Geoipsum
         ymin = @bb[0].to_f
         ymax = @bb[2].to_f
        
-        puts @bb
+        #puts @bb
        
-       ran_x = Random.new.rand(xmin..xmax)
-       ran_y = Random.new.rand(ymin..ymax)
+        ran_x = Random.new.rand(xmin..xmax)
+        ran_y = Random.new.rand(ymin..ymax)
       
         start_location = [ran_x, ran_y]
         
-        #start_location = [rand(xmax - xmin) + xmin, rand(ymax - ymin) + ymin]
-        
-        
-        puts "x: #{start_location[0]}  y: #{start_location[1]}"
+        #puts "x: #{start_location[0]}  y: #{start_location[1]}"
         
                         
         features << {"type" => "Feature",
