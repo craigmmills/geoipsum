@@ -8,9 +8,8 @@ gem 'rails', '3.0.3'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'json'
 
-group :production do
-  gem 'rack-google_analytics', :require => "rack/google_analytics"
-end
+gem 'rack-google_analytics', :require => "rack/google_analytics"
+
 
 # Use unicorn as the web server
 # gem 'unicorn'
