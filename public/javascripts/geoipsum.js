@@ -9,7 +9,7 @@ var map = po.map()
     .zoom(5)
     .add(po.interact())
 	.on("move", move)
-	.zoomRange([1,12]);
+	.zoomRange([4,12]);
 
 map.add(po.image()
     .url(po.url("http://{S}tile.cloudmade.com"
