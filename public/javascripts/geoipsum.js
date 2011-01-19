@@ -32,11 +32,17 @@ function add_layer(){
 			map.remove(layer);
 	}
 
-	var sw_ne = Math.round(map.extent()[0].lat * 100)/100 + "," +
-	 			Math.round(map.extent()[0].lon * 100)/100 + "," + 
-				Math.round(map.extent()[1].lat * 100)/100 + "," +  
-				Math.round(map.extent()[1].lon * 100)/100;
-	georef = "http://" + hn + "/polygons.json?perimeter=300&bearing_range=70&polygon_number=30&bb="+sw_ne			
+	var sw_ne = Math.round(map.extent()[0].lat * 10000000)/10000000 + "," +
+	 			Math.round(map.extent()[0].lon * 10000000)/10000000 + "," + 
+				Math.round(map.extent()[1].lat * 10000000)/10000000 + "," +  
+				Math.round(map.extent()[1].lon * 10000000)/10000000;
+				
+	
+			
+	var perim = Math.round((map.extent()[1].lat - map.extent()[0].lat) * 30);
+	hn = "localhost:3000"
+
+	georef = "http://" + hn + "/polygons.json?perimeter=" + perim + "&bearing_range=70&polygon_number=30&bb="+sw_ne;		
 	layer = po.geoJson().url(georef);
 	map.add(layer);
 	$j("#geolink").html("get the <a href='" + georef + "'>geojson</p>");
@@ -51,8 +57,10 @@ function move(){
 		var x_dist = Math.abs(map.extent()[0].lon - previous_loc.lon);
 		//get hypot
 		var dist = Math.sqrt(x_dist^2 + y_dist^2);
-	
-		if (dist > 2){					
+		//get map extent distance
+		var map_dist = Math.abs(map.extent()[0].lat - map.extent()[1].lat)
+		
+		if ((dist/map_dist) > 0.1){					
 			previous_loc = map.extent()[0];
 			add_layer();		
 		}			

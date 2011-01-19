@@ -9,7 +9,8 @@ module Geoipsum
     def initialize options
     
       @perimeter = options["perimeter"].to_f #of polygon
-      @vertices = @perimeter * 0.1 #get sensible number of vertices
+      #@vertices = @perimeter * 0.1 #get sensible number of vertices
+      @vertices = 50 
       @bearing_range = options["bearing_range"].to_f #used to determine jaggyness of polygon
       @polygon_number = options["polygon_number"].to_i     
       @polygon_number = 500 if @polygon_number > 500 #limit the number of polygons to stop the server being hammered
@@ -46,10 +47,21 @@ module Geoipsum
         ymin = @bb[0].to_f
         ymax = @bb[2].to_f
        
-        @start_location = [rand(xmax - xmin) + xmin, rand(ymax - ymin) + ymin]
-                         
+        puts @bb
+       
+       ran_x = Random.new.rand(xmin..xmax)
+       ran_y = Random.new.rand(ymin..ymax)
+      
+        start_location = [ran_x, ran_y]
+        
+        #start_location = [rand(xmax - xmin) + xmin, rand(ymax - ymin) + ymin]
+        
+        
+        puts "x: #{start_location[0]}  y: #{start_location[1]}"
+        
+                        
         features << {"type" => "Feature",
-                             "geometry" => generate_polygon(@start_location), 
+                             "geometry" => generate_polygon(start_location), 
                              "properties" => {"p_id" => feature.to_s}}  
       
                    
