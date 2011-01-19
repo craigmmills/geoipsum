@@ -40,8 +40,6 @@ function add_layer(){
 	
 			
 	var perim = Math.round((map.extent()[1].lat - map.extent()[0].lat) * 30);
-	hn = "localhost:3000"
-
 	georef = "http://" + hn + "/polygons.json?perimeter=" + perim + "&bearing_range=70&polygon_number=30&bb="+sw_ne;		
 	layer = po.geoJson().url(georef);
 	map.add(layer);
