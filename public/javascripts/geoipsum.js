@@ -3,7 +3,6 @@ var $j = jQuery;
 var po = org.polymaps;
 var hn = window.location.hostname;
 
-alert(hn);
 var map = po.map()
     .container(document.getElementById("inner").appendChild(po.svg("svg")))
     .center({lat: 52, lon: -2})
