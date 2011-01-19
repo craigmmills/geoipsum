@@ -11,7 +11,9 @@ module Geoipsum
       @perimeter = options["perimeter"].to_f #of polygon
       @vertices = @perimeter * 0.1 #get sensible number of vertices
       @bearing_range = options["bearing_range"].to_f #used to determine jaggyness of polygon
-      @polygon_number = options["polygon_number"].to_i 
+      @polygon_number = options["polygon_number"].to_i     
+      @polygon_number = 500 if @polygon_number > 500 #limit the number of polygons to stop the server being hammered
+      
       @bb = options["bb"].split(",") #n,w,s,e
     
       #need some extra stuff from these choices
