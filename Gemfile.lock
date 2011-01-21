@@ -29,7 +29,6 @@ GEM
       activesupport (= 3.0.3)
     activesupport (3.0.3)
     arel (2.0.6)
-    backports (1.18.2)
     builder (2.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -72,7 +71,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  backports
   json
   rack-google_analytics
   rails (= 3.0.3)

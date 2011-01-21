@@ -56,11 +56,15 @@ function move(){
 		//get hypot
 		var dist = Math.sqrt(x_dist^2 + y_dist^2);
 		//get map extent distance
-		var map_dist = Math.abs(map.extent()[0].lat - map.extent()[1].lat)
+		var map_dist = Math.abs(map.extent()[0].lon - map.extent()[1].lon)
 		
-		if ((dist/map_dist) > 0.3){					
-			previous_loc = map.extent()[0];
-			add_layer();		
-		}			
+		if ((dist/map_dist) > 0.05){					
+							previous_loc = map.extent()[0];
+							add_layer();		
+						}
+		
+		$j(document).ready(function(){
+			$j("#geolink").html("<p>" + (dist/map_dist) + "</p>");
+		});			
 	});			
 }
