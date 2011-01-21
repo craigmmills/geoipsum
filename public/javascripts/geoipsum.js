@@ -23,7 +23,7 @@ var layer;
 add_layer();
 	
 	$j(document).ready(function(){
-		$j("#geolink").html("get the geojson <a href='" + georef + "'>here</p>");
+		$j("#geolink").html("get the <a href='" + georef + "'>geojson</p>");
 	});	
 	
 function add_layer(){
