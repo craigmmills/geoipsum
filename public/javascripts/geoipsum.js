@@ -63,8 +63,8 @@ function move(){
 							add_layer();		
 						}
 		
-		$j(document).ready(function(){
-			$j("#geolink").html("<p>" + (dist/map_dist) + "</p>");
-		});			
+		// $j(document).ready(function(){
+		// 			$j("#geolink").html("<p>" + (dist/map_dist) + "</p>");
+		// 		});			
 	});			
 }
