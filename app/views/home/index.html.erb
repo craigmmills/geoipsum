@@ -1,53 +1,44 @@
-
-<div style="background-color:#760B10;">
-	
-
-<div id="name" style="height:2em; background-color:#760B10;margin-left:auto;
-margin-right:auto;">
-	
-</div>
-
-	<div style="background-color:#760B10;">
-		<div class="container" style="height:12em;">
-			<div class="span-7" style="height:12em;">
-				<div style="height:2em; text-align:center;"></div>
-				<h2 style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif; text-align:center;">scroll or drag the map to generate your random geojson</h3>
+<div>
+	<div id="name" class="strip"></div>
+	<div>
+		<div class="container top">
+			<div class="span-7 top">
+				<div class="strip"></div>
+				<h2 id="instructions">
+					scroll or drag the map to generate your random geojson
+				</h2>
 			</div>
-			<div class="span-2" style="height:12em">
+			<div class="span-2 top" ></div>
+			<div class="span-15 last top">
+				<h1>
+					GEOIPSUM
+				</h1>
+				<h2>
+					&nbsp; lorem ipsum for the geonerds
+				</h2>
 			</div>
-			<div class="span-15 last" style="height:12em;">
-				<h1 style="color: #FFDFA6; font-size:8em; font-family: 'Copse', arial, serif; margin-bottom:0em;">GEOIPSUM</h1>
-				<h3 style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif;">&nbsp lorem ipsum for the geonerds</h3>
-			
-			</div>
-
 		</div>
 	</div>
-	
-	
-	<div id="inner" style="margin-bottom:0em;">
-	
-		<img src="/images/red_point.png" style="position:absolute;left:27em;">
- <%= javascript_include_tag 'geoipsum' %>
-	
+	<div id="inner">
+		<img class="arrow" src="/images/red_point.png"> <%= javascript_include_tag 'geoipsum' %>
 	</div>
-	<div id="name" style="height:20em; background-color:#760B10;">
-		<div class="container"  style="height:10em">
+	<div id="name">
+		<div class="container">
 			<br>
-			<div class="span-1"><br></div>
-			<div class="span-7">
-				<h2 id="geolink" style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif;"></h2>
+			<div class="span-1">
+				<br>
 			</div>
-			<div class="span-10"> <br></div>
-			<div class="span-5 last">
-				<h2 style="color: #FFDFA6; font-size:20px; font-family: 'Copse', arial, serif;"><a href="http://craigmmills.com/geoipsum"> Blog<a>  <a href="https://github.com/craigmmills/geoipsum">Code<a> <a href="http://twitter.com/craigmmills">Follow<a></h2>
+			<div class="span-7">
+				<h2 id="geolink"></h2>
+			</div>
+			<div class="span-9">
+				<br>
+			</div>
+			<div class="span-6 last">
+				<h2>
+					<a href="http://craigmmills.com/geoipsum">Blog</a> <a href="https://github.com/craigmmills/geoipsum">Code</a> <a href="http://twitter.com/craigmmills">Follow</a>
+				</h2>
 			</div>
 		</div>
 	</div>
-	
-	<div id="test">
-		
-	</div>
-
 </div>
-

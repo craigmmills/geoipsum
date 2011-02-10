@@ -1,0 +1,38 @@
+/*colours
+
+dark red: #760B10
+beige: #FFDFA6
+
+*/
+
+/*general stuff*/
+
+body {
+  background-color:#760B10;	
+}
+h1, h2, h3 {
+	color: #FFDFA6;
+	font-family: 'Copse', arial, serif; 	
+}
+
+h1{
+	font-size:8em;
+	margin-bottom:0em;
+}
+h2{
+	font-size:2em;
+}
+
+div {
+  background-color:#760B10;
+}
+
+/*parts of the home*/
+.top {height:16em;}
+.strip {height:2em;}
+
+
+/*bits and bobs*/
+.arrow { position:absolute;left:27em; }
+#inner {margin-bottom:0em;}
+#instructions{text-align:center;}
